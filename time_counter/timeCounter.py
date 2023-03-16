@@ -8,13 +8,12 @@ import pandas
 from PIL import Image,ImageTk
 from face_racgnization import re
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
 def tkVideo():
     ref,frame = cap.read()
     frame = cv2.flip(frame,1)
     catch_frame = re.catch_face(frame)
-
     cvImage = cv2.cvtColor(catch_frame,cv2.COLOR_BGR2RGB)
     pilImage = Image.fromarray(cvImage)
     pilImage = pilImage.resize((image_width,image_height),Image.ANTIALIAS)
