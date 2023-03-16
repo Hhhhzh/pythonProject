@@ -1,6 +1,7 @@
 import csv
 import time
 import tkinter
+from tkinter import messagebox
 import cv2
 import matplotlib.pyplot
 import numpy
@@ -13,12 +14,12 @@ cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 def tkVideo():
     ref,frame = cap.read()
     frame = cv2.flip(frame,1)
-    catch_frame = re.catch_face(frame)
+    catch_frame,name = re.catch_face(frame)
     cvImage = cv2.cvtColor(catch_frame,cv2.COLOR_BGR2RGB)
     pilImage = Image.fromarray(cvImage)
     pilImage = pilImage.resize((image_width,image_height),Image.ANTIALIAS)
     tkVideo = ImageTk.PhotoImage(image=pilImage)
-    return tkVideo
+    return tkVideo,name
 
 def start():
     global time_start
@@ -101,8 +102,14 @@ image_height = 500
 canvas = tkinter.Canvas(base,bg='white',width=image_width,height=image_height)
 canvas.grid(row=2)
 
+def dialogBox():
+    result = messagebox.showwarning('提醒','您正在抬头')
+    print(result)
 while True:
-    pic = tkVideo()
+    pic , name= tkVideo()
+    name = numpy.array(name)
+    if 'hzh' in name:
+        dialogBox()
     canvas.create_image(0,0,anchor='nw',image = pic)
     base.update()
     base.after(1)

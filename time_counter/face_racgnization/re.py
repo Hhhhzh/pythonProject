@@ -33,6 +33,7 @@ def recognize_video(window_name='face recognize', camera_idx=0):
 def catch_face(frame):
     classfier = cv2.CascadeClassifier("D:/anaconda/Lib/site-packages/cv2/data/haarcascade_frontalface_alt2.xml")
     color = (0, 255, 0)
+    name = []
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     face_rects = classfier.detectMultiScale(grey, scaleFactor=1.2, minNeighbors=3, minSize=(32, 32))
     if len(face_rects) > 0:
@@ -46,8 +47,9 @@ def catch_face(frame):
             cv2.rectangle(frame, (x - 10, y - 10), (x + w + 10, y + h + 10), color, 2)
             # 将人脸对应人名写到图片上, 以为是中文名所以需要加载中文字体库
             frame = paint_chinese_opencv(frame, FACE_LABEL[label], (x-10, y+h+10), color)
+            name.append(FACE_LABEL[label])
 
-    return frame
+    return frame,name
 
 def cv2pil(image):
     return Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
