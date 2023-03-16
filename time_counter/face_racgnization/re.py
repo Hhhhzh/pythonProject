@@ -17,7 +17,7 @@ FACE_LABEL = {
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def recognize_video(window_name='face recognize', camera_idx=0):
-    cap = cv2.VideoCapture(camera_idx)
+    cap = cv2.VideoCapture(camera_idx,cv2.CAP_DSHOW)
     while cap.isOpened():
         ok, frame = cap.read()
         if not ok:
